@@ -3,9 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio em Construção - Denyver Francisco</title>
+    <title>Portfólio - Denyver Francisco</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #0284c7; --primary-dark: #0369a1; --dark: #0a0f1a; --darker: #000000;
+            --light: #cbd5e1; --lighter: #f8fafc; --gray: #64748b; --success: #0f766e;
+            --glass: rgba(5, 10, 25, 0.7);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background-color: var(--darker); color: var(--light); overflow-x: hidden; }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        section { min-height: 100vh; padding: 6rem 0; position: relative; overflow: hidden; }
+        
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.3s ease;
+            backdrop-filter: blur(10px); background-color: var(--glass); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        header.scrolled { padding: 0.5rem 0; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; transition: all 0.3s ease; }
+        header.scrolled nav { padding: 0.5rem 0; }
+        
+        .logo-container { display: flex; align-items: center; gap: 15px; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .logo-symbol { width: 70px; height: 70px; position: relative; }
+        .logo-symbol::before {
+            content: ""; position: absolute; width: 100%; height: 15px;
+            background: linear-gradient(90deg, #2563eb, #3b82f6); border-radius: 8px; top: 15%;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+        .logo-symbol::after {
+            content: ""; position: absolute; width: 15px; height: 60%;
+            background: linear-gradient(to bottom, #2563eb, #3b82f6); border-radius: 8px; left: 20%; top: 20%;
+            box-shadow: 2px 4px 6px rgba(37, 99, 235, 0.2);
+        }
+        .chart-element {
+            position: absolute; width: 30px; height: 40px; right: 10%; bottom: 10%;
+            display: flex; align-items: flex-end;
+        }
+        .chart-bar { flex: 1; background-color: #10b981; margin: 0 2px; border-radius: 3px 3px 0 0; }
+        .chart-bar:nth-child(1) { height: 60%; }
+        .chart-bar:nth-child(2) { height: 90%; }
+        .chart-bar:nth-child(3) { height: 40%; }
+        
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-name { font-size: 24px; font-weight: 700; color: #1e293b; letter-spacing: -0.5px; line-height: 1.1; }
+        .logo-subtitle {
+            font-size: 13px; color: #64748b; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 5px; position: relative; display: inline-block;
+        }
+        .logo-subtitle::after {
+            content: ""; position: absolute; bottom: -3px; left: 0; width: 50%; height: 2px;
+            background: linear-gradient(90deg, #10b981, #3b82f6); border-radius: 2px;
+        }
+        
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a {
+            text-decoration: none; color: var(--light); font-weight: 500; font-size: 1.1rem;
+            position: relative; transition: all 0.3s ease;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--primary); transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .mobile-menu { display: none; font-size: 1.8rem; color: var(--light); cursor: pointer; transition: all 0.3s ease; }
+        .mobile-menu:hover { color: var(--primary); }
+        
+        /* Hero Section */
+        .hero { display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 50%); z-index: -1;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: url('https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop') center/cover no-repeat;
+            opacity: 0.2; will-change: transform;
+        }
+        .hero-content { text-align: center; max-width: 800px; margin: 0 auto; position: relative; }
+        
+        .hero h1 {
+            font-size: 4rem; margin-bottom: 1.5rem; line-height: 1.2;
+            background: linear-gradient(to right, var(--light), var(--primary)); -webkit-background-clip: text;
+            background-clip: text; color: transparent; opacity: 0; transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+        .hero p {
+            font-size: 1.3rem; color: var(--gray); margin-bottom: 3rem; opacity: 0;
+            transform: translateY(30px); animation: fadeUp 1s ease forwards 0.7s;
+        }
+        .hero-buttons {
+            display: flex; justify-content: center; gap: 1.5rem; opacity: 0;
+            transform: translateY(30px); animation: fadeUp 1s ease forwards 0.9s;
+        }
+        
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
+            padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600;
+            transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); border: none;
+            cursor: pointer; font-size: 1rem; position: relative; overflow: hidden;
+        }
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        .btn:hover::before { left: 100%; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4); }
+        
+        .btn-outline {
+            background: transparent; border: 2px solid var(--primary); color: var(--primary); box-shadow: none;
+        }
+        .btn-outline:hover { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        
+        .scroll-down {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: var(--light);
+            font-size: 1.5rem; opacity: 0; animation: fadeIn 1s ease forwards 1.5s, bounce 2s infinite 2s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        /* Sobre Mim */
+        .about { position: relative; }
+        .about::before {
+            content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.1; z-index: -1;
+        }
+        .about-content { display: flex; align-items: center; gap: 4rem; }
+        
+        .about-image {
+            flex: 1; position: relative; opacity: 0; transform: translateX(-50px); transition: all 1s ease;
+        }
+        .about-image.visible { opacity: 1; transform: translateX(0); }
+        .about-image img {
+            width: 100%; max-width: 400px; border-radius: 100%; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative; z-index: 1;
+        }
+        .about-image:hover::before { top: -15px; left: -15px; }
+        
+        .about-text {
+            flex: 1; opacity: 0; transform: translateX(50px); transition: all 1s ease 0.3s;
+        }
+        .about-text.visible { opacity: 1; transform: translateX(0); }
+        
+        .section-title { margin-bottom: 3rem; position: relative; }
+        .section-title h2 {
+            font-size: 2.8rem; background: linear-gradient(to right, var(--light), var(--primary));
+            -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block;
+        }
+        .section-title p { color: var(--gray); font-size: 1.2rem; margin-top: 1rem; }
+        
+        .skills { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+        .skill {
+            background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.7rem 1.5rem;
+            border-radius: 50px; font-size: 0.9rem; font-weight: 600; border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        .skill:hover {
+            background: var(--primary); color: white; transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Serviços */
+        .services {
+            background: linear-gradient(to bottom, var(--darker), var(--dark)); position: relative; overflow: hidden;
+        }
+        .services::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+            position: relative; z-index: 1;
+        }
+        
+        .service-card {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem; border-radius: 20px; transition: all 0.5s ease; opacity: 0; transform: translateY(50px);
+        }
+        .service-card.visible { opacity: 1; transform: translateY(0); }
+        .service-card:hover {
+            transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.5); background: rgba(15, 23, 42, 0.9);
+        }
+        
+        .service-icon {
+            width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;
+            font-size: 1.8rem; color: white; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--light); }
+        .service-card p { color: var(--gray); line-height: 1.7; }
+        
+        /* Projetos */
+        .projects { position: relative; }
+        .projects::before {
+            content: ''; position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.1; z-index: -1;
+        }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        
+        .project-card {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; overflow: hidden; transition: all 0.5s ease; opacity: 0; transform: scale(0.9);
+        }
+        .project-card.visible { opacity: 1; transform: scale(1); }
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+        
+        .project-image { height: 250px; overflow: hidden; position: relative; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .project-card:hover .project-image img { transform: scale(1.1); }
+        
+        .project-info { padding: 2rem; }
+        .project-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--light); }
+        .project-info p { color: var(--gray); margin-bottom: 1.5rem; line-height: 1.6; }
+        
+        .project-tech { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1.5rem; }
+        .tech {
+            background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 0.4rem 1rem;
+            border-radius: 50px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .project-links { display: flex; gap: 1.5rem; }
+        .project-links a {
+            text-decoration: none; color: var(--light); font-weight: 600; display: flex;
+            align-items: center; gap: 0.5rem; transition: all 0.3s ease;
+        }
+        .project-links a:hover { color: var(--primary); transform: translateX(5px); }
+        
+        /* Melhorias para os projetos */
+        .project-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 132, 199, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .projects-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        /* Contato */
+        .contact {
+            background: linear-gradient(to bottom, var(--dark), var(--darker)); position: relative; overflow: hidden;
+        }
+        .contact::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            opacity: 0.1; z-index: 0;
+        }
+        .contact-container { display: flex; gap: 4rem; position: relative; z-index: 1; }
+        
+        .contact-info {
+            flex: 1; opacity: 0; transform: translateX(-50px); transition: all 1s ease;
+        }
+        .contact-info.visible { opacity: 1; transform: translateX(0); }
+        .contact-info h3 {
+            font-size: 2.2rem; margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--light), var(--primary)); -webkit-background-clip: text;
+            background-clip: text; color: transparent;
+        }
+        .contact-info p { color: var(--gray); margin-bottom: 2rem; line-height: 1.7; font-size: 1.1rem; }
+        
+        .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-item { display: flex; align-items: center; gap: 1.5rem; }
+        .contact-icon {
+            width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;
+            font-size: 1.5rem; flex-shrink: 0; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        .contact-text h4 { font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--light); }
+        .contact-text p, .contact-text a { color: var(--gray); text-decoration: none; transition: all 0.3s ease; }
+        .contact-text a:hover { color: var(--primary); }
+        
+        .contact-form {
+            flex: 1; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 2.5rem; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateX(50px);
+            transition: all 1s ease 0.3s;
+        }
+        .contact-form.visible { opacity: 1; transform: translateX(0); }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.8rem; font-weight: 500; color: var(--light); }
+        .form-control {
+            width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; font-size: 1rem;
+            color: var(--light); transition: all 0.3s ease;
+        }
+        .form-control:focus { outline: none; border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+        textarea.form-control { min-height: 150px; resize: vertical; }
+        
+        /* Footer */
+        footer {
+            background: var(--darker); padding: 4rem 0 2rem; position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-content { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .footer-logo {
+            font-size: 2.2rem; font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--light)); -webkit-background-clip: text;
+            background-clip: text; color: transparent; margin-bottom: 2rem; text-decoration: none;
+        }
+        .footer-links {
+            display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; justify-content: center;
+        }
+        .footer-links a { color: var(--gray); text-decoration: none; transition: all 0.3s ease; font-size: 1.1rem; }
+        .footer-links a:hover { color: var(--primary); }
+        
+        .social-links { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; }
+        .social-link {
+            width: 50px; height: 50px; background: rgba(255, 255, 255, 0.05); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: var(--light); font-size: 1.3rem;
+            transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .social-link:hover {
+            background: var(--primary); color: white; transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); border-color: var(--primary);
+        }
+        .copyright { color: var(--gray); font-size: 0.9rem; margin-top: 2rem; }
+        
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .hero h1 { font-size: 3.5rem; }
+            .about-content, .contact-container { gap: 3rem; }
+        }
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3rem; }
+            .about-content, .contact-container { flex-direction: column; }
+            .about-image, .contact-info { margin-bottom: 3rem; }
+            .section-title h2 { font-size: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 80px; left: 0; width: 100%; background: var(--dark);
+                flex-direction: column; align-items: center; padding: 2rem 0; gap: 1.5rem;
+                clip-path: circle(0px at 90% -10%); transition: all 0.5s ease-out; pointer-events: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .nav-links.active { clip-path: circle(1000px at 90% -10%); pointer-events: all; }
+            .mobile-menu { display: block; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .hero-buttons { flex-direction: column; gap: 1rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 2.2rem; }
+            .section-title h2 { font-size: 2rem; }
+            .service-card, .project-card { padding: 1.5rem; }
+            .contact-form { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body class="loading">
     <div class="main-content">
@@ -30,6 +441,7 @@
                         <a href="#about">Sobre</a>
                         <a href="#services">Serviços</a>
                         <a href="#projects">Projetos</a>
+                        <a href="#github-projects">GitHub</a>
                         <a href="#contact">Contato</a>
                     </div>
                     <div class="mobile-menu">
@@ -94,7 +506,7 @@
                     <div class="service-card">
                         <div class="service-icon"><i class="fas fa-code"></i></div>
                         <h3>Desenvolvimento Web</h3>
-                        <p>Criação de sites e aplicações web responsivas, otimizadas para performance e SEO, utilizando as melhores práticas do mercado.</p>
+                        <p>Criação de sites и aplicações web responsivas, otimizadas para performance e SEO, utilizando as melhores práticas do mercado.</p>
                     </div>
                     <div class="service-card">
                         <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
@@ -118,13 +530,19 @@
         <section id="projects" class="projects">
             <div class="container">
                 <div class="section-title">
-                    <h2>Projetos Recentes</h2>
-                    <p>Alguns dos meus trabalhos mais recentes</p>
+                    <h2>Projetos em Destaque</h2>
+                    <p>Alguns dos meus trabalhos mais recentes e relevantes</p>
                 </div>
                 <div class="projects-grid">
                     <div class="project-card">
                         <div class="project-image">
                             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="E-commerce Moderno">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                                    <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
                         </div>
                         <div class="project-info">
                             <h3>E-commerce Moderno</h3>
@@ -134,15 +552,18 @@
                                 <span class="tech">TypeScript</span>
                                 <span class="tech">Node.js</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
-                            </div>
                         </div>
                     </div>
+                    
                     <div class="project-card">
                         <div class="project-image">
                             <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Dashboard Analytics">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                                    <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
                         </div>
                         <div class="project-info">
                             <h3>Dashboard Analytics</h3>
@@ -152,15 +573,18 @@
                                 <span class="tech">Chart.js</span>
                                 <span class="tech">MongoDB</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
-                            </div>
                         </div>
                     </div>
+                    
                     <div class="project-card">
                         <div class="project-image">
                             <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Aplicativo de Tarefas">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
+                                    <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
                         </div>
                         <div class="project-info">
                             <h3>Aplicativo de Tarefas</h3>
@@ -170,12 +594,28 @@
                                 <span class="tech">Firebase</span>
                                 <span class="tech">Redux</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                                <a href="#"><i class="fab fa-github"></i> Código</a>
-                            </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Botão para ver mais projetos -->
+                <div class="projects-cta">
+                    <a href="#github-projects" class="btn btn-outline">
+                        <i class="fab fa-github"></i> Ver Todos os Projetos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nova seção para projetos do GitHub -->
+        <section id="github-projects" class="projects">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Projetos no GitHub</h2>
+                    <p>Meus repositórios públicos no GitHub</p>
+                </div>
+                <div class="projects-grid" id="github-projects-container">
+                    <!-- Os projetos serão inseridos aqui via JavaScript -->
                 </div>
             </div>
         </section>
@@ -189,7 +629,7 @@
                 <div class="contact-container">
                     <div class="contact-info">
                         <h3>Vamos conversar!</h3>
-                        <p>Estou disponível para oportunidades de trabalho freelance ou projetos desafiadores. Entre em contato e vamos conversar sobre como posso ajudar no seu projeto.</p>
+                        <p>Estou disponível para oportunidades de trabalho freelance или projetos desafiadores. Entre em contato e vamos conversar sobre como posso ajudar no seu projeto.</p>
                         <div class="contact-details">
                             <div class="contact-item">
                                 <div class="contact-icon"><i class="fas fa-envelope"></i></div>
@@ -248,6 +688,7 @@
                         <a href="#about">Sobre</a>
                         <a href="#services">Serviços</a>
                         <a href="#projects">Projetos</a>
+                        <a href="#github-projects">GitHub</a>
                         <a href="#contact">Contato</a>
                     </div>
                     <div class="social-links">
@@ -288,6 +729,9 @@
                 document.querySelector('.main-content').style.opacity = '1';
                 document.querySelector('.main-content').style.visibility = 'visible';
             }, 3000);
+            
+            // Carrega os projetos do GitHub
+            fetchGitHubProjects();
         });
         
         const mobileMenu = document.querySelector('.mobile-menu');
@@ -356,6 +800,69 @@
                 }
             });
         });
+        
+        // Adiciona efeito de parallax suave nas imagens dos projetos
+        document.querySelectorAll('.project-image').forEach(image => {
+            image.addEventListener('mousemove', function(e) {
+                const x = e.offsetX;
+                const y = e.offsetY;
+                const width = this.offsetWidth;
+                const height = this.offsetHeight;
+                
+                const moveX = ((x - width / 2) / width) * 10;
+                const moveY = ((y - height / 2) / height) * 10;
+                
+                this.querySelector('img').style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+            });
+            
+            image.addEventListener('mouseleave', function() {
+                this.querySelector('img').style.transform = 'scale(1) translate(0, 0)';
+            });
+        });
+        
+        // Função para buscar e exibir projetos do GitHub
+        async function fetchGitHubProjects() {
+            const username = 'SEU_USERNAME_DO_GITHUB'; // Substitua pelo seu username
+            const container = document.getElementById('github-projects-container');
+            
+            try {
+                const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
+                const projects = await response.json();
+                
+                if (!response.ok) throw new Error(projects.message);
+                
+                container.innerHTML = ''; // Limpa o container
+                
+                projects.forEach(project => {
+                    if (!project.fork) { // Exibe apenas repositórios que não são forks
+                        const projectCard = document.createElement('div');
+                        projectCard.className = 'project-card';
+                        projectCard.innerHTML = `
+                            <div class="project-info">
+                                <h3>${project.name}</h3>
+                                <p>${project.description || 'Sem descrição disponível.'}</p>
+                                <div class="project-tech">
+                                    <span class="tech">${project.language || 'Vários'}</span>
+                                    <span class="tech">⭐ ${project.stargazers_count}</span>
+                                    <span class="tech">📌 ${project.forks_count}</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="${project.html_url}" target="_blank"><i class="fab fa-github"></i> Ver Código</a>
+                                    ${project.homepage ? `<a href="${project.homepage}" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>` : ''}
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(projectCard);
+                    }
+                });
+                
+                // Ativa as animações após carregar os projetos
+                setTimeout(animateOnScroll, 100);
+            } catch (error) {
+                console.error('Erro ao carregar projetos:', error);
+                container.innerHTML = '<p>Não foi possível carregar os projetos do GitHub.</p>';
+            }
+        }
     </script>
 </body>
 </html>
